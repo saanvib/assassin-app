@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import { MouseEvent } from "react";
 import { useState } from "react";
 
@@ -12,13 +11,7 @@ function ListGroup({ items, heading, onSelectItem }: Props) {
   // Hook
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
-  const getMessage = () => {
-    return items.length === 0 ? <p>No item found</p> : null;
-  };
-
-  // Event handler
-  const handleClick = (event: MouseEvent) => console.log(event);
-
+//   
   return (
     <>
       <h1>{heading}</h1>
