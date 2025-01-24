@@ -1,4 +1,3 @@
-import { MouseEvent } from "react";
 import { useState } from "react";
 
 interface Props {
