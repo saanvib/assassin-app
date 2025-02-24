@@ -10,12 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@descope/node-sdk": "^1.7.0",
     "@descope/react-sdk": "^2.5.0",
+    "@headlessui/react": "^2.2.0",
+    "@tailwindcss/vite": "^4.0.6",
+    "@vercel/edge-config": "^1.4.0",
     "@vercel/node": "^5.0.2",
     "bootstrap": "^5.3.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.1.5"
+    "react-router-dom": "^7.1.5",
+    "styled-components": "5.0.0",
+    "tailwindcss": "^4.0.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
