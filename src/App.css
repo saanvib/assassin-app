@@ -2,81 +2,79 @@
 
 /* General Styling */
 body {
-   background-color: white;
-   color: #dc2626;
-   font-family: sans-serif;
- }
- 
- .navbar {
-   background-color: #dc2626;
-   color: white;
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   padding: 1rem;
-   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
- }
- 
- 
- .app-name {
-   font-size: 1.25rem;
-   font-weight: bold;
-   margin-left: 5%;
- }
- 
- .username {
-   font-size: 1.125rem;
-   margin-right: 5%;
- }
- 
- .body-wrapper {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   padding: 1rem;
-   gap: 1rem;
- }
- 
- .button {
-   background-color: #dc2626;
-   color: white;
-   font-weight: bold;
-   padding: 0.5rem 1rem;
-   border-radius: 0.5rem;
-   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-   transition: background-color 0.3s ease-in-out;
- }
- 
- .button:hover {
-   background-color: #b91c1c;
- }
- 
- button {
-   width: 100%;
-   max-width: 20rem;
- }
- 
- /* Link Styling */
- a {
-   color: #dc2626;
-   text-decoration: underline;
- }
- 
- /* Footer Navigation */
- .footer {
-   display: flex;
-   justify-content: space-around;
-   background-color: #fee2e2;
-   padding: 1rem;
-   margin-top: 1rem;
-   box-shadow: inset 0px 4px 6px rgba(0, 0, 0, 0.1);
- }
- 
- .footer button {
-   background-color: #dc2626;
-   color: white;
-   font-weight: 600;
-   padding: 0.5rem 1rem;
-   border-radius: 0.5rem;
- }
- 
+  background-color: white;
+  color: #dc2626;
+  font-family: sans-serif;
+}
+
+.navbar {
+  background-color: #dc2626;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.app-name {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-left: 5%;
+}
+
+.username {
+  font-size: 1.125rem;
+  margin-right: 5%;
+}
+
+.body-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.button {
+  background-color: #dc2626;
+  color: white;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.button:hover {
+  background-color: #b91c1c;
+}
+
+button {
+  width: 100%;
+  max-width: 20rem;
+}
+
+/* Link Styling */
+a {
+  color: #dc2626;
+  text-decoration: underline;
+}
+
+/* Footer Navigation */
+.footer {
+  display: flex;
+  justify-content: space-around;
+  background-color: #fee2e2;
+  padding: 1rem;
+  margin-top: 1rem;
+  box-shadow: inset 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.footer button {
+  background-color: #dc2626;
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+}

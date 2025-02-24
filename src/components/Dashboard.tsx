@@ -6,8 +6,8 @@ import { getSessionToken } from "@descope/react-sdk";
 function Dashboard() {
   const navigate = useNavigate();
   // TODO: get Target and Kill Count
-//   const [target, setTarget] = useState("");
-//   const [killCount, setKillCount] = useState(0);
+  //   const [target, setTarget] = useState("");
+  //   const [killCount, setKillCount] = useState(0);
   const sessionToken = getSessionToken();
   const handleKill = () => {
     const requestOptions = {
