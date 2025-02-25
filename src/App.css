@@ -3,12 +3,12 @@
 /* General Styling */
 body {
   background-color: white;
-  color: #dc2626;
+  color: #bb1a1a;
   font-family: sans-serif;
 }
 
 .navbar {
-  background-color: #dc2626;
+  background-color: #bb1a1a;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -16,6 +16,16 @@ body {
   padding: 1rem;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+.navbarbottom {
+   background-color: #ffffff;
+   color: #bb1a1a;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 2rem;
+   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+ }
 
 .app-name {
   font-size: 1.25rem;
@@ -28,6 +38,18 @@ body {
   margin-right: 5%;
 }
 
+.rules-link {
+   font-size: 1.25rem;
+   margin-left: 3%;
+   margin-right: 3%;
+ }
+ 
+ .ticket-link {
+   font-size: 1.125rem;
+   margin-left: 3%;
+   margin-right: 3%;
+ }
+
 .body-wrapper {
   display: flex;
   flex-direction: column;
@@ -37,7 +59,7 @@ body {
 }
 
 .button {
-  background-color: #dc2626;
+  background-color: #bb1a1a;
   color: white;
   font-weight: bold;
   padding: 0.5rem 1rem;
@@ -47,7 +69,7 @@ body {
 }
 
 .button:hover {
-  background-color: #b91c1c;
+  background-color: #711010;
 }
 
 button {
@@ -57,7 +79,7 @@ button {
 
 /* Link Styling */
 a {
-  color: #dc2626;
+  color: #bb1a1a;
   text-decoration: underline;
 }
 
@@ -72,7 +94,7 @@ a {
 }
 
 .footer button {
-  background-color: #dc2626;
+  background-color: #bb1a1a;
   color: white;
   font-weight: 600;
   padding: 0.5rem 1rem;

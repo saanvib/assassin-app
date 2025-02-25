@@ -55,12 +55,6 @@ function Dashboard() {
     // Add your desired functionality here
   };
 
-  const navFileTicket = () => {
-    navigate("/fileticket");
-    console.log("Button was clicked!");
-    // Add your desired functionality here
-  };
-
   const navRegisterAbsence = () => {
     navigate("/absences");
     console.log("Button was clicked!");
@@ -98,9 +92,13 @@ function Dashboard() {
         </button>
         <br></br>
         {/* TODO: make this bottom bar / spaced out properly */}
-        <Link to="/">Rules</Link>
-        <button onClick={navRegisterAbsence}>RegisterAbsence</button>
-        <button onClick={navFileTicket}>Ticket/Feedback</button>
+        <nav className="navbarbottom">
+          <button className="button" onClick={navRegisterAbsence}>
+            Register Absence
+          </button>
+          <Link className="rules-link" to="/">Rules</Link>
+          <Link className="ticket-link" to="/">Ticket/Feedback</Link>
+        </nav>
       </div>
     </>
   );

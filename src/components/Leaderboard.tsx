@@ -17,6 +17,33 @@ function Leaderboard() {
       .then((response) => response.json())
       .then((data) => setLeaderboard(data.leaderboard));
   };
+  const initialize = () => {
+   const requestOptions = {
+     method: "POST",
+     headers: {
+       "Content-Type": "application/json",
+     },
+   };
+
+   console.log("Calling fetch....");
+   fetch("/api/initialize", requestOptions)
+     .then((response) => response.json())
+     .then((data) => setLeaderboard(data.leaderboard));
+ };
+
+ const randomizeTargets = () => {
+   const requestOptions = {
+     method: "POST",
+     headers: {
+       "Content-Type": "application/json",
+     },
+   };
+
+   console.log("Calling fetch....");
+   fetch("/api/randomizeTargets", requestOptions)
+     .then((response) => response.json())
+     .then((data) => setLeaderboard(data.leaderboard));
+ };
 
   return (
     <>
@@ -29,6 +56,12 @@ function Leaderboard() {
         <br></br>
         <button className="button" onClick={refreshLeaderboard}>
           Reveal
+        </button>
+        <button className="button" onClick={initialize}>
+          Initialize
+        </button>
+        <button className="button" onClick={randomizeTargets}>
+          Randomize
         </button>
         <table>
           <thead>
