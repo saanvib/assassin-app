@@ -95,6 +95,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 
    return res.json({
-      message: `hi`,
+
    })
 }

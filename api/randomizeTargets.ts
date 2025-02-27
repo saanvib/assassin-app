@@ -59,10 +59,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
    const items: any[] = [];
    for (const student in studentList) {
-      items.push({key: studentList[student].username, operation: "update", value: studentList[student]});
+      items.push({ key: studentList[student].username, operation: "update", value: studentList[student] });
    }
 
-   try { 
+   try {
       const updateEdgeConfig = await fetch(
          'https://api.vercel.com/v1/edge-config/' + edge_config_id + '/items',
          {

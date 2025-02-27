@@ -21,18 +21,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       studentList.push(student);
    }
 
-   studentList.sort((a, b) => {
-      if (a.killCount < b.killCount) {
-         return 1;
-      }
-      if (a.killCount > b.killCount) {
-         return -1;
-      }
-      return 0;
-   });
-
    console.log(studentList);
    return res.json({
-      leaderboard: studentList.slice(0, 10),
+      studentList: studentList,
    })
 }

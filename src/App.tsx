@@ -3,7 +3,7 @@ import Login from "./components/Login.tsx";
 import Dashboard from "./components/Dashboard.tsx";
 import Leaderboard from "./components/Leaderboard.tsx";
 import React from "react";
-import FileTicket from "./components/FileTicket.tsx";
+import Admin from "./components/Admin.tsx";
 
 function App() {
   return (
@@ -16,8 +16,8 @@ function App() {
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/" element={<Login />} />
             <Route path="/requestnew" element={<Dashboard />} />
-            <Route path="/fileticket" element={<FileTicket />} />
             <Route path="/absences" element={<Dashboard />} />
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </BrowserRouter>
       </React.StrictMode>

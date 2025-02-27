@@ -68,7 +68,7 @@ function Dashboard() {
         <div className="username">Username</div>
       </nav>
       <div className="body-wrapper">
-        Dashboard
+        <h1>Dashboard</h1>
         <br></br>
         <br></br>
         Target Name: Example
@@ -91,13 +91,17 @@ function Dashboard() {
           Leaderboard
         </button>
         <br></br>
-        {/* TODO: make this bottom bar / spaced out properly */}
+        {/* TODO: make this bottom bar spaced out properly / look better */}
         <nav className="navbarbottom">
           <button className="button" onClick={navRegisterAbsence}>
             Register Absence
           </button>
-          <Link className="rules-link" to="/">Rules</Link>
-          <Link className="ticket-link" to="/">Ticket/Feedback</Link>
+          <Link className="rules-link" to="/">
+            Rules
+          </Link>
+          <Link className="ticket-link" to="/">
+            Ticket/Feedback
+          </Link>
         </nav>
       </div>
     </>

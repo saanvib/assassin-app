@@ -18,14 +18,14 @@ body {
 }
 
 .navbarbottom {
-   background-color: #ffffff;
-   color: #bb1a1a;
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   padding: 2rem;
-   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
- }
+  background-color: #ffffff;
+  color: #bb1a1a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
 
 .app-name {
   font-size: 1.25rem;
@@ -39,16 +39,16 @@ body {
 }
 
 .rules-link {
-   font-size: 1.25rem;
-   margin-left: 3%;
-   margin-right: 3%;
- }
- 
- .ticket-link {
-   font-size: 1.125rem;
-   margin-left: 3%;
-   margin-right: 3%;
- }
+  font-size: 1.25rem;
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+.ticket-link {
+  font-size: 1.125rem;
+  margin-left: 3%;
+  margin-right: 3%;
+}
 
 .body-wrapper {
   display: flex;

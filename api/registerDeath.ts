@@ -31,8 +31,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             studentObj.status = "eliminated";
             statusMsg = "Kill registered. You are dead.";
             assassinObj.killCount += 1;
-            // then reassign assassin to new target? or say pending until EOD?
-            // TODO: determine how target is reassigned
+            // then reassign assassin to new target
+            assassinObj.target = studentObj.target;
+            assassinObj.targetStatus = "alive";
          }
          else {
             // student cannot die, throw error status msg
