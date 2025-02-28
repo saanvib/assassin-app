@@ -1,7 +1,5 @@
 import { useMemo, useState } from "react";
-import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { createClient, get, getAll } from "@vercel/edge-config";
-import DescopeClient from "@descope/node-sdk";
+import { getSessionToken } from "@descope/react-sdk";
 
 // ROL2tYLDLHCrNHHpMCmKpK055vS10N admin ID
 import {
@@ -9,6 +7,7 @@ import {
   useMaterialReactTable,
   type MRT_ColumnDef,
 } from "material-react-table";
+import { useNavigate } from "react-router-dom";
 
 interface Student {
   username: string;
@@ -20,63 +19,70 @@ interface Student {
   targetStatus: string;
 }
 
-// async function handler(req: VercelRequest, res: VercelResponse) {
-//   const { headers } = req;
-//   const bearerToken: string = headers.authorization ?? "";
-//   const sessionToken: string = bearerToken.split(" ")[1];
-//   const descopeProjectId: string = process.env.DESCOPE_PROJECT ?? "";
-//   const assassinAppConfig = createClient(process.env.EDGE_CONFIG);
-//   const edge_config_id = process.env.EDGE_CONFIG_ID;
-
-//   console.log(sessionToken);
-//   try {
-//     const descopeClient = DescopeClient({ projectId: descopeProjectId });
-//     try {
-//       const authInfo = await descopeClient.validateSession(sessionToken);
-//       console.log("Successfully validated user session:");
-
-//       console.log(authInfo.token);
-
-//       const email: string = authInfo.token.email as string;
-//       const studentUsername = email.split("@")[0];
-//       // Fetch a single value from one config
-//     } catch (error) {
-//       console.log("Could not validate user session " + error);
-//     }
-//   } catch (error) {
-//     console.log("failed to initialize: " + error);
-//   }
-// }
-
 function Admin() {
-  const [studentList, setStudentList] = useState([]);
-  const cols = ["username", "status"];
+  const sessionToken = getSessionToken();
+  const navigate = useNavigate();
 
+  const [studentList, setStudentList] = useState([]);
   let data: Student[] = studentList;
-  let columns = useMemo<MRT_ColumnDef<Student>[]>(
+
+  const navDashboard = () => {
+    navigate("/");
+  };
+
+  const columns = useMemo<MRT_ColumnDef<Student>[]>(
     () => [
       {
         accessorKey: "username", //access nested data with dot notation
         header: "Username",
         size: 150,
+        enableEditing: false,
       },
       {
         accessorKey: "status",
         header: "Status",
         size: 150,
+        enableEditing: true,
       },
     ],
     []
   );
 
-  let table = useMaterialReactTable({
+  const table = useMaterialReactTable({
     columns,
     data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    enableEditing: true,
+    editDisplayMode: "modal",
+    onEditingRowSave: async ({ values, table }) => {
+      console.log("Values being sent:", values);
+      try {
+        console.log("Session Token:", sessionToken);
+        await fetch("/api/updateStudentStatus", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionToken}`,
+          },
+          body: JSON.stringify({
+            username: values.username,
+            status: values.status,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => console.log("Status updated:", data))
+          .catch((error) => console.error("Error updating status:", error));
+        table.setEditingRow(null);
+      } catch (error) {
+        console.error("Catch error:", error); // Log any additional errors
+      }
+    },
   });
+
   const refreshStudentList = () => {
     const requestOptions = {
       method: "POST",
       headers: {
+        Authorization: `Bearer ${sessionToken}`,
         "Content-Type": "application/json",
       },
     };
@@ -85,34 +91,13 @@ function Admin() {
     fetch("/api/getStudentList", requestOptions)
       .then((response) => response.json())
       .then((data) => setStudentList(data.studentList));
-
-    columns = useMemo<MRT_ColumnDef<Student>[]>(
-      () => [
-        {
-          accessorKey: "username", //access nested data with dot notation
-          header: "Username",
-          size: 150,
-        },
-        {
-          accessorKey: "status",
-          header: "Status",
-          size: 150,
-        },
-      ],
-      []
-    );
-
-    table = useMaterialReactTable({
-      columns,
-      data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
-      enableEditing: true,
-    });
   };
 
   const initialize = () => {
     const requestOptions = {
       method: "POST",
       headers: {
+        Authorization: `Bearer ${sessionToken}`,
         "Content-Type": "application/json",
       },
     };
@@ -127,6 +112,7 @@ function Admin() {
     const requestOptions = {
       method: "POST",
       headers: {
+        Authorization: `Bearer ${sessionToken}`,
         "Content-Type": "application/json",
       },
     };
@@ -141,10 +127,13 @@ function Admin() {
     <>
       <nav className="navbar">
         <h1 className="app-name">ASSASSIN</h1>
+        <button className="button" onClick={navDashboard}>
+          Dashboard
+        </button>
         <div className="username">Username</div>
       </nav>
       <div className="body-wrapper">
-        Admin
+        <h1>Admin</h1>
         <br></br>
         <button className="button" onClick={refreshStudentList}>
           Refresh
@@ -155,6 +144,7 @@ function Admin() {
         <button className="button" onClick={randomizeTargets}>
           Randomize
         </button>
+        <br></br>
         <MaterialReactTable table={table} />
       </div>
     </>

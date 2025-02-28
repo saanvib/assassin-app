@@ -51,46 +51,65 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
    const assassinAppConfig = createClient(process.env.EDGE_CONFIG);
    const edge_config_id = process.env.EDGE_CONFIG_ID;
    let target: string = "";
-
-
-   const studentList: Student[] = [];
-   for (const user in users) {
-      const username = users[user].split("@")[0];
-      studentList.push({
-         "username": username,
-         "killCount": 0,
-         "absences": [],
-         "assassin": "",
-         "status": "alive",
-         "target": "",
-         "targetStatus": "alive"
-      })
-   }
-
    const items: any[] = [];
-   for (const student in studentList) {
-      items.push({ key: studentList[student].username, operation: "create", value: studentList[student] });
-   }
+
 
    try {
-      const updateEdgeConfig = await fetch(
-         'https://api.vercel.com/v1/edge-config/' + edge_config_id + '/items',
-         {
-            method: 'PATCH',
-            headers: {
-               Authorization: `Bearer ${process.env.ASSASSIN_APP_API_TOKEN}`,
-               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-               items: items,
-            }),
-         },
-      );
-      const result = await updateEdgeConfig.json();
-      console.log(result);
+      const descopeClient = DescopeClient({ projectId: descopeProjectId });
+      try {
+         const authInfo = await descopeClient.validateSession(sessionToken);
+         console.log(authInfo);
+         console.log("Successfully validated user session:");
+         const roles: string[] = authInfo.token.roles as unknown as string[];
+
+         if (roles.includes("admin")) {
+            const studentList: Student[] = [];
+            for (const user in users) {
+               const username = users[user].split("@")[0];
+               studentList.push({
+                  "username": username,
+                  "killCount": 0,
+                  "absences": [],
+                  "assassin": "",
+                  "status": "alive",
+                  "target": "",
+                  "targetStatus": "alive"
+               })
+            }
+
+            for (const student in studentList) {
+               items.push({ key: studentList[student].username, operation: "create", value: studentList[student] });
+            }
+
+            try {
+               const updateEdgeConfig = await fetch(
+                  'https://api.vercel.com/v1/edge-config/' + edge_config_id + '/items',
+                  {
+                     method: 'PATCH',
+                     headers: {
+                        Authorization: `Bearer ${process.env.ASSASSIN_APP_API_TOKEN}`,
+                        'Content-Type': 'application/json',
+                     },
+                     body: JSON.stringify({
+                        items: items,
+                     }),
+                  },
+               );
+               const result = await updateEdgeConfig.json();
+               console.log(result);
+            } catch (error) {
+               console.log(error);
+            }
+         }
+
+      } catch (error) {
+         console.log("Could not validate user session " + error);
+      }
    } catch (error) {
-      console.log(error);
+      console.log("failed to initialize: " + error)
    }
+
+
 
 
 

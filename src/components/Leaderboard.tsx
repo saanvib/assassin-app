@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
   const columns = ["username", "killCount"];
+  const navigate = useNavigate();
 
   const refreshLeaderboard = () => {
     const requestOptions = {
@@ -18,10 +20,17 @@ function Leaderboard() {
       .then((data) => setLeaderboard(data.leaderboard));
   };
 
+  const navDashboard = () => {
+    navigate("/");
+  };
+
   return (
     <>
       <nav className="navbar">
         <h1 className="app-name">ASSASSIN</h1>
+        <button className="button" onClick={navDashboard}>
+          Dashboard
+        </button>
         <div className="username">Username</div>
       </nav>
       <div className="body-wrapper">

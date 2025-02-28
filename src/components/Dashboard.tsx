@@ -2,12 +2,21 @@
 import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 import { getSessionToken } from "@descope/react-sdk";
+import { useEffect, useState } from "react";
+
+interface Student {
+  username: string;
+  killCount: number;
+  absences: string[];
+  assassin: string;
+  status: string;
+  target: string;
+  targetStatus: string;
+}
 
 function Dashboard() {
+  const [student, setStudent] = useState<Student | null>(null);
   const navigate = useNavigate();
-  // TODO: get Target and Kill Count
-  //   const [target, setTarget] = useState("");
-  //   const [killCount, setKillCount] = useState(0);
   const sessionToken = getSessionToken();
   const handleKill = () => {
     const requestOptions = {
@@ -20,8 +29,6 @@ function Dashboard() {
     fetch("/api/registerKill", requestOptions)
       .then((response) => response.json())
       .then((data) => console.log(data.message));
-    console.log("Button was clicked!");
-    // Add your desired functionality here
   };
 
   const handleDeath = () => {
@@ -38,64 +45,81 @@ function Dashboard() {
         console.log(data.message);
         console.log(data.statusCode);
       });
-
-    console.log("Button was clicked!");
-    // Add your desired functionality here
-  };
-
-  const navNewTargetReq = () => {
-    navigate("/requestnew");
-    console.log("Button was clicked!");
-    // Add your desired functionality here
   };
 
   const navLeaderboard = () => {
     navigate("/leaderboard");
-    console.log("Button was clicked!");
-    // Add your desired functionality here
   };
 
-  const navRegisterAbsence = () => {
-    navigate("/absences");
-    console.log("Button was clicked!");
-    // Add your desired functionality here
+  const navAdmin = () => {
+    navigate("/admin");
   };
+
+  const getStudentInfo = () => {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${sessionToken}`,
+        "Content-Type": "application/json",
+      },
+    };
+
+    console.log("Calling fetch....");
+    fetch("/api/getStudentInfo", requestOptions)
+      .then((response) => response.json())
+      .then((data) => setStudent(data.studentObj));
+  };
+
+  useEffect(() => {
+    getStudentInfo();
+  }, []);
+
+  const username = student ? student.username : "Loading...";
+  const killCount = student ? student.killCount : "Loading...";
+  const target = student ? student.target : "Loading...";
+  const status = student ? student.status : "";
 
   return (
     <>
       <nav className="navbar">
         <h1 className="app-name">ASSASSIN</h1>
-        <div className="username">Username</div>
+        <button className="button" onClick={navAdmin}>
+          Admin Portal
+        </button>
+        <div className="username">{username}</div>
       </nav>
       <div className="body-wrapper">
         <h1>Dashboard</h1>
         <br></br>
+        <strong>Target Name:</strong> {target}
         <br></br>
-        Target Name: Example
+        <strong>Kill Count:</strong> {killCount}
         <br></br>
-        Kill Count: []
         <br></br>
         <button className="button" onClick={handleKill}>
           Register Kill
         </button>
-        <br></br>
-        <button className="button" onClick={handleDeath}>
-          Register Death
-        </button>
-        <br></br>
-        <button className="button" onClick={navNewTargetReq}>
-          Request New Target
-        </button>
-        <br></br>
+        {status == "pending" ? (
+          <button className="button" onClick={handleDeath}>
+            Register Death
+          </button>
+        ) : (
+          <></>
+        )}
         <button className="button" onClick={navLeaderboard}>
           Leaderboard
         </button>
         <br></br>
+        {status == "pending" ? (
+         //  <Link className="decline-death-link" to="/">
+         //    Decline Death
+         //  </Link>
+          <button><a href="https://www.google.com" target="_blank" className="button">Decline Death</a></button>
+        ) : (
+          <></>
+        )}
         {/* TODO: make this bottom bar spaced out properly / look better */}
         <nav className="navbarbottom">
-          <button className="button" onClick={navRegisterAbsence}>
-            Register Absence
-          </button>
           <Link className="rules-link" to="/">
             Rules
           </Link>

@@ -24,7 +24,6 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 2rem;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .app-name {
@@ -38,8 +37,14 @@ body {
   margin-right: 5%;
 }
 
+.decline-death-link {
+  font-size: 1.125rem;
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
 .rules-link {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   margin-left: 3%;
   margin-right: 3%;
 }
