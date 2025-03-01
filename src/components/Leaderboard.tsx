@@ -8,7 +8,7 @@ function Leaderboard() {
 
   const refreshLeaderboard = () => {
     const requestOptions = {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
