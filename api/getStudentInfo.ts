@@ -12,8 +12,7 @@ interface Student {
    "targetStatus": string
 }
 
-// returns top 10 users with their kill count
-// {[{name:username, count:count}]}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
    const { headers } = req;
    const bearerToken: string = headers.authorization ?? "";
@@ -31,7 +30,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
          console.log("Successfully validated user session:");
          const email: string = authInfo.token.email as string;
          const allData = await assassinAppConfig.getAll();
-console.log("All Edge Config Data:", allData);
+
          const studentUsername = email.split("@")[0];
          // Fetch a single value from one config
          studentObj = await assassinAppConfig.get(studentUsername) as unknown as Student;

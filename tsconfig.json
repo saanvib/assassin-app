@@ -1,5 +1,8 @@
 {
   "files": [],
+  "compilerOptions": {
+    "module": "ES2020", // or "CommonJS" depending on your needs
+  },
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
