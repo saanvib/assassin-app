@@ -3,17 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 import { getSessionToken, useDescope } from "@descope/react-sdk";
 import { useEffect, useState } from "react";
-// import { Box, Button, Modal, Typography } from "@mui/material";
+import {Student} from '../components/utils/studentType.tsx';
 
-interface Student {
-  username: string;
-  killCount: number;
-  absences: string[];
-  assassin: string;
-  status: string;
-  target: string;
-  targetStatus: string;
-}
 
 function Dashboard() {
   const [student, setStudent] = useState<Student | null>(null);

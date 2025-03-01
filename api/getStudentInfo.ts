@@ -1,16 +1,8 @@
 import { createClient, get } from '@vercel/edge-config';
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import DescopeClient from '@descope/node-sdk';
+import {Student} from '../src/components/utils/studentType.jsx';
 
-interface Student {
-   "username": string,
-   "killCount": number,
-   "absences": string[],
-   "assassin": string,
-   "status": string,
-   "target": string,
-   "targetStatus": string
-}
 
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

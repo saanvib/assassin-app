@@ -1,16 +1,7 @@
 import { getAll } from '@vercel/edge-config';
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import DescopeClient from '@descope/node-sdk';
-
-interface Student {
-   "username": string,
-   "killCount": number,
-   "absences": string[],
-   "assassin": string,
-   "status": string,
-   "target": string,
-   "targetStatus": string
-}
+import {Student} from '../src/components/utils/studentType.tsx';
 
 // returns top 10 users with their kill count
 // {[{name:username, count:count}]}

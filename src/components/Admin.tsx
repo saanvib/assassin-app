@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { getSessionToken } from "@descope/react-sdk";
+import {Student} from '../components/utils/studentType.tsx';
 
-// ROL2tYLDLHCrNHHpMCmKpK055vS10N admin ID
 import {
   MaterialReactTable,
   useMaterialReactTable,
@@ -9,15 +9,6 @@ import {
 } from "material-react-table";
 import { useNavigate } from "react-router-dom";
 
-interface Student {
-  username: string;
-  killCount: number;
-  absences: string[];
-  assassin: string;
-  status: string;
-  target: string;
-  targetStatus: string;
-}
 
 function Admin() {
   const sessionToken = getSessionToken();
