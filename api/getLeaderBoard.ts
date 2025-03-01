@@ -3,8 +3,6 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 import {Student} from '../src/components/utils/studentType.tsx';
 
 
-// returns top 10 users with their kill count
-// {[{name:username, count:count}]}
 export default async function handler(req: VercelRequest, res: VercelResponse) {
    const configItems = await getAll();
    const studentList: Student[] = [];
