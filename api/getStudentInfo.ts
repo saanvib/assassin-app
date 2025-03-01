@@ -1,7 +1,7 @@
 import { createClient, get } from '@vercel/edge-config';
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import DescopeClient from '@descope/node-sdk';
-import {Student} from '../src/components/utils/studentType.jsx';
+import {Student} from '../src/components/utils/studentType.tsx';
 
 
 
