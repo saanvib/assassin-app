@@ -179,13 +179,13 @@ function Dashboard() {
             Rules
           </Link>
           {status == "pending" ? (
-            <Link to="https://www.google.com" className="link" target="_blank">
+            <Link to="https://docs.google.com/forms/u/0/d/1ebDg6YeDxvELAaQYcZQhgwcgrYtTg2DLY9W7M3f4lDI/edit" className="link" target="_blank">
               <span>Dispute Death</span>
             </Link>
           ) : (
             <></>
           )}
-          <Link className="link" to="/">
+          <Link className="link" to="https://docs.google.com/forms/d/e/1FAIpQLSfkfZ8Ei0CvT6lqIsaQmKltXfUw9dLcWGFWyI3BYI3Bg7l2NA/viewform?usp=sharing">
             Ticket/Feedback
           </Link>
         </nav>
