@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./components/Login.tsx";
-import Dashboard from "./components/Dashboard.tsx";
-import Leaderboard from "./components/Leaderboard.tsx";
+import Login from "./components/Login";
+import Dashboard from "./components/Dashboard";
+import Leaderboard from "./components/Leaderboard";
 import React from "react";
-import Admin from "./components/Admin.tsx";
-import ProtectedRoutes from "./components/utils/ProtectedRoutes.tsx";
-import ProtectedAdminRoutes from "./components/utils/ProtectedAdminRoutes.tsx";
+import Admin from "./components/Admin";
+import ProtectedRoutes from "./components/utils/ProtectedRoutes";
+import ProtectedAdminRoutes from "./components/utils/ProtectedAdminRoutes";
 
 function App() {
   return (
