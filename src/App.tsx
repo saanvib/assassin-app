@@ -14,10 +14,10 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route element={<ProtectedRoutes />}>
+            {/* <Route element={<ProtectedRoutes />}> */}
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/leaderboard" element={<Leaderboard />} />
-            </Route>
+            {/* </Route> */}
             <Route element={<ProtectedAdminRoutes />}>
               <Route path="/admin" element={<Admin />} />
             </Route>
