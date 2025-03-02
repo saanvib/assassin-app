@@ -23,7 +23,8 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
          const email: string = authInfo.token.email as string;
          const allData = await assassinAppConfig.getAll();
 
-         const studentUsername = email.split("@")[0];
+         const studentUsername = email.split("@")[0].toLowerCase();
+         console.log(studentUsername);
          // Fetch a single value from one config
          studentObj = await assassinAppConfig.get(studentUsername) as unknown as Student;
 
@@ -33,6 +34,7 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
    } catch (error) {
       console.log("failed to initialize: " + error)
    }   
+   console.log(studentObj);
    console.log(studentObj.username);
    console.log("student obj is " + studentObj);
    return res.json({

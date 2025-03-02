@@ -56,7 +56,7 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
          if (roles.includes("admin")) {
             const studentList: Student[] = [];
             for (const user in users) {
-               const username = users[user].split("@")[0];
+               const username = users[user].split("@")[0].toLowerCase();
                studentList.push({
                   "username": username,
                   "killCount": 0,

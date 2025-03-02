@@ -21,7 +21,7 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
          const authInfo = await descopeClient.validateSession(sessionToken);
          console.log("Successfully validated user session:");
          const email: string = authInfo.token.email as string;
-         const studentUsername = email.split("@")[0];
+         const studentUsername = email.split("@")[0].toLowerCase();
          // Fetch a single value from one config
          const studentObj: any = await assassinAppConfig.get(studentUsername);
          assassin = studentObj.assassin;
