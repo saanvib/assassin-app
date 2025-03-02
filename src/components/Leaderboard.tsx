@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Leaderboard() {
@@ -20,6 +20,10 @@ function Leaderboard() {
       .then((data) => setLeaderboard(data.leaderboard));
   };
 
+  useEffect(() => {
+      refreshLeaderboard();
+    }, []);
+
   const navDashboard = () => {
     navigate("/");
   };
@@ -34,16 +38,16 @@ function Leaderboard() {
         <div className="username">Username</div>
       </nav>
       <div className="body-wrapper">
-        Leaderboard
+      <h2 className="pageTitle">Leaderboard</h2>
         <br></br>
-        <button className="button" onClick={refreshLeaderboard}>
-          Reveal
-        </button>
-        <table>
+        {/* <button className="button" onClick={refreshLeaderboard}>
+          Refresh Leaderboard
+        </button> */}
+        <table className="leaderboard-table">
           <thead>
             <tr>
-              <th>Username</th>
-              <th>Kill Count</th>
+              <th className="table-header">Username</th>
+              <th className="table-header">Kill Count</th>
             </tr>
           </thead>
 

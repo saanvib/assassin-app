@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 import { getSessionToken, useDescope } from "@descope/react-sdk";
 import { useEffect, useState } from "react";
-import {Student} from './utils/studentType';
-
+import { Student } from "./utils/studentType";
+import { Modal, Box, Typography, Button } from "@mui/material";
 
 function Dashboard() {
   const [student, setStudent] = useState<Student | null>(null);
@@ -67,15 +67,27 @@ function Dashboard() {
     getStudentInfo();
   }, []);
 
+  //   TODO: change button styling colors different
   const username = student ? student.username : "Loading...";
   const killCount = student ? student.killCount : "Loading...";
   const target = student ? student.target : "Loading...";
-  const status = student ? student.status : "";
-//   const [open, setOpen] = useState(false);
-//   const handleOpen = () => setOpen(true);
-//   const handleClose = () => setOpen(false);
-
-
+  const status = student ? student.status : "Loading...";
+  const targetStatus = student ? student.targetStatus : "Loading...";
+  const assassin = student ? student.assassin : "Loading...";
+  const [openKillModal, setOpenKillModal] = useState(false);
+  const handleOpenKillModal = () => setOpenKillModal(true);
+  const handleCloseKillModal = () => setOpenKillModal(false);
+  const handleConfirmKill = () => {
+    handleKill();
+    setOpenKillModal(false);
+  };
+  const [openDeathModal, setOpenDeathModal] = useState(false);
+  const handleOpenDeathModal = () => setOpenDeathModal(true);
+  const handleCloseDeathModal = () => setOpenDeathModal(false);
+  const handleConfirmDeath = () => {
+    handleDeath();
+    setOpenDeathModal(false);
+  };
   return (
     <>
       <nav className="navbar">
@@ -92,59 +104,88 @@ function Dashboard() {
         <div className="username">{username}</div>
       </nav>
       <div className="body-wrapper">
-        <h1>Dashboard</h1>
+        <h2 className="pageTitle">Dashboard</h2>
         <br></br>
-        <strong>Target Name:</strong> {target}
+        <p className="pageText">Your Status: {status} </p>
+        <p className="pageText">Kill Count: {killCount} </p>
+        {status == "alive" || status == "pending" ? (
+          <>
+            <p className="pageText">Target Name: {target} </p>
+            <p className="pageText">Target Status: {targetStatus} </p>
+          </>
+        ) : (
+          <></>
+        )}
+
         <br></br>
-        <strong>Kill Count:</strong> {killCount}
-        <br></br>
-        <br></br>
-        <button className="button" onClick={handleKill}>
-          Register Kill
-        </button>
-        {/* <Modal
-        open={open}
-        onClose={handleClose}
-      >
-        <Box>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Modal Title
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Modal content text.
-          </Typography>
-          <Button onClick={handleClose}>Close</Button>
-        </Box>
-      </Modal> */}
-        {status == "pending" ? (
-          <button className="button" onClick={handleDeath}>
-            Register Death
+        {status == "alive" || status == "pending" ? (
+          <button className="button" onClick={handleOpenKillModal}>
+            Register Kill
           </button>
         ) : (
           <></>
         )}
-        <button className="button" onClick={navLeaderboard}>
+        <Modal open={openKillModal} onClose={handleCloseKillModal}>
+          <Box className="modalStyle">
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Confirm your kill.
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              Killing {target}. Please confirm below.
+            </Typography>
+            <br></br>
+            <button className="secondaryButton" onClick={handleConfirmKill}>
+              Confirm Kill
+            </button>
+            <button className="secondaryButton" onClick={handleCloseKillModal}>
+              Close
+            </button>
+          </Box>
+        </Modal>
+        {status == "pending" ? (
+          <button className="button" onClick={handleOpenDeathModal}>
+            Accept Death
+          </button>
+        ) : (
+          <></>
+        )}
+
+        <Modal open={openDeathModal} onClose={handleCloseDeathModal}>
+          <Box className="modalStyle">
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Accept your death.
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              Confirm that you were killed by {assassin}.
+            </Typography>
+            <br></br>
+            <button className="secondaryButton" onClick={handleConfirmDeath}>
+              Confirm Death
+            </button>
+            <button className="secondaryButton" onClick={handleCloseDeathModal}>
+              Close
+            </button>
+          </Box>
+        </Modal>
+
+        <button className="secondaryButton" onClick={navLeaderboard}>
           Leaderboard
         </button>
         <br></br>
-        {status == "pending" ? (
-          //  <Link className="decline-death-link" to="/">
-          //    Decline Death
-          //  </Link>
-          <button>
-            <a href="https://www.google.com" target="_blank" className="button">
-              Decline Death
-            </a>
-          </button>
-        ) : (
-          <></>
-        )}
-        {/* TODO: make this bottom bar spaced out properly / look better */}
+
+        {/* TODO: add in all links */}
         <nav className="navbarbottom">
-          <Link className="rules-link" to="/">
+          <Link className="link" to="https://docs.google.com/document/d/11REzloMzacvjvCLawWyY8zGQ6Lf9uzpTgE7kG_Fnkd0/edit?usp=sharing">
             Rules
           </Link>
-          <Link className="ticket-link" to="/">
+          {status == "pending" ? (
+            <Link to="https://www.google.com" className="link" target="_blank">
+              <span>Dispute Death</span>
+            </Link>
+          ) : (
+            <></>
+          )}
+          <Link className="link" to="/">
             Ticket/Feedback
           </Link>
         </nav>

@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getSessionToken } from "@descope/react-sdk";
-import {Student} from './utils/studentType';
+import { Student } from "./utils/studentType";
 
 import {
   MaterialReactTable,
@@ -8,7 +8,7 @@ import {
   type MRT_ColumnDef,
 } from "material-react-table";
 import { useNavigate } from "react-router-dom";
-
+import { WidthFull } from "@mui/icons-material";
 
 function Admin() {
   const sessionToken = getSessionToken();
@@ -39,6 +39,10 @@ function Admin() {
     []
   );
 
+  useEffect(() => {
+      refreshStudentList();
+    }, []);
+
   const table = useMaterialReactTable({
     columns,
     data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
@@ -48,21 +52,32 @@ function Admin() {
       console.log("Values being sent:", values);
       try {
         console.log("Session Token:", sessionToken);
-        await fetch("/api/updateStudentStatus", {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${sessionToken}`,
-          },
-          body: JSON.stringify({
-            username: values.username,
-            status: values.status,
-          }),
-        })
-          .then((response) => response.json())
-          .then((data) => console.log("Status updated:", data))
-          .catch((error) => console.error("Error updating status:", error));
-        table.setEditingRow(null);
+        if (
+          values.status == "alive" ||
+          values.status == "pending" ||
+          values.status == "eliminated" ||
+          values.status == "disqualified" ||
+          values.status == "dispute"
+        ) {
+          await fetch("/api/updateStudentStatus", {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${sessionToken}`,
+            },
+            body: JSON.stringify({
+              username: values.username,
+              status: values.status,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => console.log("Status updated:", data))
+            .catch((error) => console.error("Error updating status:", error));
+          table.setEditingRow(null);
+        }
+        else{
+         alert("wrong status entered");
+        }
       } catch (error) {
         console.error("Catch error:", error); // Log any additional errors
       }
@@ -124,11 +139,11 @@ function Admin() {
         <div className="username">Username</div>
       </nav>
       <div className="body-wrapper">
-        <h1>Admin</h1>
+        <h2 className="pageTitle">Admin</h2>
         <br></br>
-        <button className="button" onClick={refreshStudentList}>
+        {/* <button className="button" onClick={refreshStudentList}>
           Refresh
-        </button>
+        </button> */}
         <button className="button" onClick={initialize}>
           Initialize
         </button>
@@ -136,7 +151,9 @@ function Admin() {
           Randomize
         </button>
         <br></br>
-        <MaterialReactTable table={table} />
+        <div className="adminTable">
+          <MaterialReactTable table={table} />
+        </div>
       </div>
     </>
   );

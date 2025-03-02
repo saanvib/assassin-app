@@ -36,7 +36,7 @@ export default async function PATCH(req: VercelRequest, res: VercelResponse) {
     if (!studentObj) {
       return res.status(404).json({ message: "Student not found" });
     }
-
+// TODO: confirm that status entered in text box is an option
     studentObj.status = status;
 
     const updateEdgeConfig = await fetch(

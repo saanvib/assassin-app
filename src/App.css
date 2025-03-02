@@ -1,10 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 @import "tailwindcss";
 
 /* General Styling */
 body {
   background-color: white;
-  color: #bb1a1a;
-  font-family: sans-serif;
+  color: black; /* Changed from #bb1a1a */
+  font-family: "Roboto";
+  font-weight: 200;
 }
 
 .navbar {
@@ -13,6 +15,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  top: 0;
   padding: 1rem;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -24,35 +27,30 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 2rem;
+  width: 30%;
 }
 
 .app-name {
   font-size: 1.25rem;
   font-weight: bold;
   margin-left: 5%;
+  color: black; /* Ensure text is black */
 }
 
-.username {
-  font-size: 1.125rem;
-  margin-right: 5%;
+.pageTitle {
+  font-size: 1.5rem;
 }
 
-.decline-death-link {
-  font-size: 1.125rem;
-  margin-left: 3%;
-  margin-right: 3%;
+.pageName {
+  font-size: 1.5rem;
 }
 
-.rules-link {
-  font-size: 1.125rem;
-  margin-left: 3%;
-  margin-right: 3%;
-}
-
-.ticket-link {
+.username,
+.link {
   font-size: 1.125rem;
   margin-left: 3%;
   margin-right: 3%;
+  color: black; /* Override red from body */
 }
 
 .body-wrapper {
@@ -63,7 +61,12 @@ body {
   gap: 1rem;
 }
 
-.button {
+.decline-death-link a {
+  text-decoration: none;
+}
+
+.button,
+.decline-death-link {
   background-color: #bb1a1a;
   color: white;
   font-weight: bold;
@@ -72,13 +75,38 @@ body {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease-in-out;
 }
+.secondaryButton {
+  background-color: #5d1616;
+  color: white;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  margin: 0.25rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease-in-out;
+}
+.secondaryButton:hover {
+  background-color: #481010;
+}
 
 .button:hover {
   background-color: #711010;
 }
 
+.loginBox {
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.adminTable {
+   width: 60%;
+   justify-content: center;
+}
+
 button {
-  width: 100%;
+  width: 30%;
   max-width: 20rem;
 }
 
@@ -86,6 +114,18 @@ button {
 a {
   color: #bb1a1a;
   text-decoration: underline;
+}
+
+.table-header {
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 0.75rem 2rem; /* Increases horizontal spacing */
+  text-align: left;
 }
 
 /* Footer Navigation */
@@ -104,4 +144,19 @@ a {
   font-weight: 600;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
+}
+
+.modalStyle {
+  align-items: center;
+  padding: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  background-color: rgb(24, 24, 24);
+  border-width: 2px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  color: rgb(255, 255, 255);
+  border-radius: 10px;
 }
