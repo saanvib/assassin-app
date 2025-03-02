@@ -15,7 +15,7 @@ function Leaderboard() {
     };
 
     console.log("Calling fetch....");
-    fetch("/api/getLeaderboard", requestOptions)
+    fetch("/api/getLeaderBoard", requestOptions)
       .then((response) => response.json())
       .then((data) => setLeaderboard(data.leaderboard));
   };
