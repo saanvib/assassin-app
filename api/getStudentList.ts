@@ -1,11 +1,11 @@
 import { getAll } from '@vercel/edge-config';
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import DescopeClient from '@descope/node-sdk';
-import {Student} from '../src/components/utils/studentType.tsx';
+import {Student} from '../src/components/utils/studentType';
 
 // returns top 10 users with their kill count
 // {[{name:username, count:count}]}
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function GET(req: VercelRequest, res: VercelResponse) {
    const { headers } = req;
    const bearerToken: string = headers.authorization ?? "";
    const sessionToken: string = bearerToken.split(" ")[1];

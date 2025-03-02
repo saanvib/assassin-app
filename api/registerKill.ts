@@ -4,7 +4,7 @@ import DescopeClient from '@descope/node-sdk';
 
 
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function POST(req: VercelRequest, res: VercelResponse) {
    const { headers } = req;
    const bearerToken: string = headers.authorization ?? "";
    const sessionToken: string = bearerToken.split(" ")[1];

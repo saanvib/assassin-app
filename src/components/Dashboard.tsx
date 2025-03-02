@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 import { getSessionToken, useDescope } from "@descope/react-sdk";
 import { useEffect, useState } from "react";
-import {Student} from '../components/utils/studentType.tsx';
+import {Student} from './utils/studentType';
 
 
 function Dashboard() {
@@ -12,7 +12,6 @@ function Dashboard() {
   const sessionToken = getSessionToken();
   const sdk = useDescope();
   const handleKill = () => {
-    
     const requestOptions = {
       method: "POST",
       headers: {

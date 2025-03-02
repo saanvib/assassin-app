@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { getSessionToken } from "@descope/react-sdk";
-import {Student} from '../components/utils/studentType.tsx';
+import {Student} from './utils/studentType';
 
 import {
   MaterialReactTable,
@@ -71,7 +71,7 @@ function Admin() {
 
   const refreshStudentList = () => {
     const requestOptions = {
-      method: "POST",
+      method: "GET",
       headers: {
         Authorization: `Bearer ${sessionToken}`,
         "Content-Type": "application/json",
@@ -86,7 +86,7 @@ function Admin() {
 
   const initialize = () => {
     const requestOptions = {
-      method: "POST",
+      method: "GET",
       headers: {
         Authorization: `Bearer ${sessionToken}`,
         "Content-Type": "application/json",
@@ -101,7 +101,7 @@ function Admin() {
 
   const randomizeTargets = () => {
     const requestOptions = {
-      method: "POST",
+      method: "GET",
       headers: {
         Authorization: `Bearer ${sessionToken}`,
         "Content-Type": "application/json",

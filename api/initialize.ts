@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { createClient, get, getAll } from '@vercel/edge-config';
 import DescopeClient from '@descope/node-sdk';
-import {Student} from '../src/components/utils/studentType.tsx';
+import {Student} from '../src/components/utils/studentType';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function GET(req: VercelRequest, res: VercelResponse) {
    const { headers } = req;
    const users = ["25SummerA@students.harker.org", "25MayaA@students.harker.org",
       "25SavyaA@students.harker.org",
