@@ -35,6 +35,18 @@ function Admin() {
         size: 150,
         enableEditing: true,
       },
+      {
+         accessorKey: "target",
+         header: "Target",
+         size: 150,
+         enableEditing: true,
+       },
+      {
+         accessorKey: "targetStatus",
+         header: "Target Status",
+         size: 150,
+         enableEditing: true,
+       },
     ],
     []
   );
@@ -68,6 +80,8 @@ function Admin() {
             body: JSON.stringify({
               username: values.username,
               status: values.status,
+              target: values.target,
+              targetStatus: values.targetStatus
             }),
           })
             .then((response) => response.json())
