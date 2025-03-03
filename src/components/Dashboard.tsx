@@ -21,7 +21,10 @@ function Dashboard() {
     };
     fetch("/api/registerKill", requestOptions)
       .then((response) => response.json())
-      .then((data) => console.log(data.message));
+      .then((data) => {
+         console.log(data.message)
+         setStudent(data.studentObj)
+      });
   };
 
   const handleDeath = () => {
@@ -37,6 +40,7 @@ function Dashboard() {
       .then((data) => {
         console.log(data.message);
         console.log(data.statusCode);
+        setStudent(data.studentObj)
       });
   };
 

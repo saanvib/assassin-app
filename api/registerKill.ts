@@ -13,6 +13,7 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
    const edge_config_id = process.env.EDGE_CONFIG_ID;
    let target: string = "";
    console.log(sessionToken);
+   let studentObj: any;
    try {
       const descopeClient = DescopeClient({ projectId: descopeProjectId });
       try {
@@ -21,7 +22,7 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
          const email: string = authInfo.token.email as string;
          const studentUsername = email.split("@")[0].toLowerCase();
          // Fetch a single value from one config
-         const studentObj: any = await assassinAppConfig.get(studentUsername);
+         studentObj = await assassinAppConfig.get(studentUsername);
          target = studentObj.target;
          const targetObj: any = await assassinAppConfig.get(target);
          studentObj.targetStatus = "pending";
@@ -57,5 +58,6 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
 
    return res.json({
       message: `${target} has been killed!`,
+      studentObj: studentObj,
    })
 }

@@ -14,6 +14,7 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
    let status = 200;
    let statusMsg = "OK";
    let assassin: string = "";
+   let studentObj: any;
    console.log(sessionToken);
    try {
       const descopeClient = DescopeClient({ projectId: descopeProjectId });
@@ -23,7 +24,7 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
          const email: string = authInfo.token.email as string;
          const studentUsername = email.split("@")[0].toLowerCase();
          // Fetch a single value from one config
-         const studentObj: any = await assassinAppConfig.get(studentUsername);
+         studentObj = await assassinAppConfig.get(studentUsername);
          assassin = studentObj.assassin;
          const assassinObj: any = await assassinAppConfig.get(assassin);
          if (studentObj.status == "pending" && assassinObj.targetStatus == "pending") {
@@ -71,6 +72,7 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
 
    return res.json({
       message: statusMsg,
-      statusCode: status
+      statusCode: status,
+      studentObj: studentObj,
    })
 }
