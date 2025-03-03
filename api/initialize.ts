@@ -225,7 +225,6 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
                studentList.push({
                   "username": username,
                   "killCount": 0,
-                  "absences": [],
                   "assassin": "",
                   "status": "alive",
                   "target": "",
