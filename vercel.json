@@ -1,6 +1,2 @@
 {
-   "crons": [{
-     "path": "/api/randomizeTargets",
-     "schedule": "0 7 * * 0-5"
-   }]
  }
