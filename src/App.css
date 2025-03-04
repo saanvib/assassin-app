@@ -44,7 +44,10 @@ body {
   font-size: 1.5rem;
 }
 
-.username,
+.username {
+   font-size: 1.125rem;
+}
+
 .link {
   font-size: 1.125rem;
   margin-left: 3%;
