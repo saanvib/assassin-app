@@ -13,6 +13,7 @@ import { WidthFull } from "@mui/icons-material";
 function Admin() {
   const sessionToken = getSessionToken();
   const navigate = useNavigate();
+  const [student, setStudent] = useState<Student | null>(null);
 
   const [studentList, setStudentList] = useState([]);
   let data: Student[] = studentList;
@@ -36,24 +37,44 @@ function Admin() {
         enableEditing: true,
       },
       {
-         accessorKey: "target",
-         header: "Target",
-         size: 150,
-         enableEditing: true,
-       },
+        accessorKey: "target",
+        header: "Target",
+        size: 150,
+        enableEditing: true,
+      },
       {
-         accessorKey: "targetStatus",
-         header: "Target Status",
-         size: 150,
-         enableEditing: true,
-       },
+        accessorKey: "targetStatus",
+        header: "Target Status",
+        size: 150,
+        enableEditing: true,
+      },
     ],
     []
   );
+  const getStudentInfo = () => {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${sessionToken}`,
+        "Content-Type": "application/json",
+      },
+    };
+
+    console.log("Calling fetch....");
+    fetch("/api/getStudentInfo", requestOptions)
+      .then((response) => response.json())
+      .then((data) => setStudent(data.studentObj));
+  };
 
   useEffect(() => {
-      refreshStudentList();
-    }, []);
+    getStudentInfo();
+  }, []);
+
+  useEffect(() => {
+    refreshStudentList();
+  }, []);
+
+  const username = student ? student.username : "Loading...";
 
   const table = useMaterialReactTable({
     columns,
@@ -81,16 +102,15 @@ function Admin() {
               username: values.username,
               status: values.status,
               target: values.target,
-              targetStatus: values.targetStatus
+              targetStatus: values.targetStatus,
             }),
           })
             .then((response) => response.json())
             .then((data) => console.log("Status updated:", data))
             .catch((error) => console.error("Error updating status:", error));
           table.setEditingRow(null);
-        }
-        else{
-         alert("wrong status entered");
+        } else {
+          alert("wrong status entered");
         }
       } catch (error) {
         console.error("Catch error:", error); // Log any additional errors
@@ -150,7 +170,7 @@ function Admin() {
         <button className="button" onClick={navDashboard}>
           Dashboard
         </button>
-        <div className="username">Username</div>
+        <div className="username">{username}</div>
       </nav>
       <div className="body-wrapper">
         <h2 className="pageTitle">Admin</h2>
