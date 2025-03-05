@@ -122,7 +122,7 @@ function Dashboard() {
         )}
 
         <br></br>
-        {target != "" && (status == "alive" || status == "pending") ? (
+        {target != "N/A" && (status == "alive" || status == "pending") ? (
           <button className="button" onClick={handleOpenKillModal}>
             Register Kill
           </button>
