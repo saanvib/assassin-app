@@ -138,12 +138,14 @@ function Dashboard() {
               Killing {target}. Please confirm below.
             </Typography>
             <br></br>
+            <div className="modalButtons">
             <button className="secondaryButton" onClick={handleConfirmKill}>
               Confirm Kill
             </button>
             <button className="secondaryButton" onClick={handleCloseKillModal}>
               Close
             </button>
+            </div>
           </Box>
         </Modal>
         {status == "pending" ? (
@@ -163,12 +165,14 @@ function Dashboard() {
               Confirm that you were killed by {assassin}.
             </Typography>
             <br></br>
+            <div className="modalButtons">
             <button className="secondaryButton" onClick={handleConfirmDeath}>
               Confirm Death
             </button>
             <button className="secondaryButton" onClick={handleCloseDeathModal}>
               Close
             </button>
+            </div>
           </Box>
         </Modal>
 
