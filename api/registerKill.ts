@@ -25,6 +25,7 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
          studentObj = await assassinAppConfig.get(studentUsername);
          target = studentObj.target;
          const targetObj: any = await assassinAppConfig.get(target);
+         console.log(targetObj.username);
          studentObj.targetStatus = "pending";
          targetObj.status = "pending";
          try {
