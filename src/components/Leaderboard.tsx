@@ -35,7 +35,7 @@ function Leaderboard() {
         <button className="button" onClick={navDashboard}>
           Dashboard
         </button>
-        <div className="username">Username</div>
+        <div></div>
       </nav>
       <div className="body-wrapper">
       <h2 className="pageTitle">Leaderboard</h2>
