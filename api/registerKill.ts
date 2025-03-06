@@ -43,7 +43,6 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
                },
             );
             const result = await updateEdgeConfig.json();
-            console.log(result);
          } catch (error) {
             console.log(error);
             res.status(500);
