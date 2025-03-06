@@ -116,7 +116,7 @@ function Admin() {
               status: values.status,
               target: values.target,
               targetStatus: values.targetStatus,
-              assasin: values.assassin,
+              assassin: values.assassin,
               killCount: values.killCount,
             }),
           })
