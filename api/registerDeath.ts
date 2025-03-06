@@ -61,13 +61,22 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
             console.log(result);
          } catch (error) {
             console.log(error);
+            res.status(500);
+            res.json({ message: "UPDATE FAILED " + error });
+            return res;
          }
 
       } catch (error) {
          console.log("Could not validate user session " + error);
+         res.status(500);
+         res.json({ message: "ERROR: Could not validate user session " + error });
+         return res;
       }
    } catch (error) {
       console.log("failed to initialize: " + error)
+      res.status(500);
+      res.json({ message: "ERROR: failed to initialize: " + error });
+      return res;
    }
 
    return res.json({

@@ -1,7 +1,7 @@
 import { createClient, get } from '@vercel/edge-config';
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import DescopeClient from '@descope/node-sdk';
-import {Student} from '../src/components/utils/studentType';
+import { Student } from '../src/components/utils/studentType';
 
 
 
@@ -11,7 +11,6 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
    const sessionToken: string = bearerToken.split(" ")[1];
    const descopeProjectId: string = process.env.DESCOPE_PROJECT ?? "";
    const assassinAppConfig = createClient(process.env.EDGE_CONFIG);
-   const edge_config_id = process.env.EDGE_CONFIG_ID;
    let status = 200;
    let statusMsg = "OK";
    let studentObj: any = null;
@@ -30,10 +29,16 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
 
       } catch (error) {
          console.log("Could not validate user session " + error);
+         res.status(500);
+         res.json({ message: "Could not validate user session " + error });
+         return res;
       }
    } catch (error) {
       console.log("failed to initialize: " + error)
-   }   
+      res.status(500);
+      res.json({ message: "failed to initialize: " + error });
+      return res;
+   }
    console.log(studentObj);
    console.log(studentObj.username);
    console.log("student obj is " + studentObj);

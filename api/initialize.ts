@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { createClient, get, getAll } from '@vercel/edge-config';
 import DescopeClient from '@descope/node-sdk';
-import {Student} from '../src/components/utils/studentType';
+import { Student } from '../src/components/utils/studentType';
 
 export default async function GET(req: VercelRequest, res: VercelResponse) {
    const { headers } = req;
@@ -259,16 +259,15 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
 
       } catch (error) {
          console.log("Could not validate user session " + error);
+         res.status(500);
+         res.json({ message: "Could not validate user session " + error });
+         return res;
       }
    } catch (error) {
-      console.log("failed to initialize: " + error)
-   }
-
-
-
-
-
-   return res.json({
-
-   })
+   console.log("failed to initialize: " + error)
+   res.status(500);
+   res.json({ message: "failed to initialize: " + error });
+   return res;
 }
+}
+

@@ -29,9 +29,15 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
 
       } catch (error) {
          console.log("Could not validate user session " + error);
+         res.status(500);
+         res.json({ message: "Could not validate user session " + error });
+         return res;
       }
    } catch (error) {
       console.log("failed to initialize: " + error)
+      res.status(500);
+      res.json({ message: "failed to initialize: " + error });
+      return res;
    }
 
 
