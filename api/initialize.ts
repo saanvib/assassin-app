@@ -233,7 +233,7 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
             }
 
             for (const student in studentList) {
-               items.push({ key: studentList[student].username, operation: "create", value: studentList[student] });
+               items.push({ key: studentList[student].username, operation: "upsert", value: studentList[student] });
             }
 
             try {
