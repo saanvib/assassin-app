@@ -264,10 +264,12 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
          return res;
       }
    } catch (error) {
-   console.log("failed to initialize: " + error)
-   res.status(500);
-   res.json({ message: "failed to initialize: " + error });
+      console.log("failed to initialize: " + error)
+      res.status(500);
+      res.json({ message: "failed to initialize: " + error });
+      return res;
+   }
+   res.json({ message: "initialize successful" });
    return res;
-}
 }
 

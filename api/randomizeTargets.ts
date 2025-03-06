@@ -105,8 +105,6 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
    }
 
 
-
-
-   return res.json({
-   })
+   res.json({ message: "initialize successful" });
+   return res;
 }
