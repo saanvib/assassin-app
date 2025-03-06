@@ -9,10 +9,10 @@ export default async function PATCH(req: VercelRequest, res: VercelResponse) {
 
    const { headers, body } = req;
 
-   let username, status, target, targetStatus;
+   let username, status, target, targetStatus, assassin;
    try {
-      ({ username, status, target, targetStatus } = body);
-      console.log("Parsed body:", { username, status, target, targetStatus });
+      ({ username, status, target, targetStatus, assassin } = body);
+      console.log("Parsed body:", { username, status, target, targetStatus, assassin });
    } catch (error) {
       console.error("Error parsing body:", error);
       return res.status(400).json({ message: "Invalid JSON body" });
@@ -40,6 +40,7 @@ export default async function PATCH(req: VercelRequest, res: VercelResponse) {
       studentObj.status = status;
       studentObj.target = target;
       studentObj.targetStatus = targetStatus;
+      studentObj.assassin = assassin;
 
       const updateEdgeConfig = await fetch(
          `https://api.vercel.com/v1/edge-config/${edge_config_id}/items`,

@@ -48,6 +48,13 @@ function Admin() {
         size: 150,
         enableEditing: true,
       },
+      {
+         accessorKey: "assassin",
+         header: "Assassin",
+         size: 150,
+         enableEditing: true,
+       },
+       
     ],
     []
   );
@@ -103,6 +110,7 @@ function Admin() {
               status: values.status,
               target: values.target,
               targetStatus: values.targetStatus,
+              assasin: values.assassin,
             }),
           })
             .then((response) => response.json())
