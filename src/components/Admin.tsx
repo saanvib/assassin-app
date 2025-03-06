@@ -54,6 +54,12 @@ function Admin() {
          size: 150,
          enableEditing: true,
        },
+       {
+         accessorKey: "killCount",
+         header: "Kill Count",
+         size: 150,
+         enableEditing: true,
+       },
        
     ],
     []
@@ -111,6 +117,7 @@ function Admin() {
               target: values.target,
               targetStatus: values.targetStatus,
               assasin: values.assassin,
+              killCount: values.killCount,
             }),
           })
             .then((response) => response.json())
