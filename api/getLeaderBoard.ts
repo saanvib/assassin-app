@@ -1,6 +1,6 @@
 import { getAll } from '@vercel/edge-config';
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import {Student} from '../src/components/utils/studentType';
+import { Student } from '../src/components/utils/studentType';
 
 
 export default async function GET(req: VercelRequest, res: VercelResponse) {
@@ -8,7 +8,9 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
    const studentList: Student[] = [];
    for (const item in configItems) {
       const student = configItems[item] as unknown as Student;
-      studentList.push(student);
+      if (student.status != "eliminated") {
+         studentList.push(student);
+      }
    }
 
    studentList.sort((a, b) => {
