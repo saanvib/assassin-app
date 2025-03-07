@@ -31,7 +31,7 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
             // then this student can die
             studentObj.status = "eliminated";
             statusMsg = "Kill registered. You are dead.";
-            assassinObj.killCount += 1;
+            assassinObj.killCount = parseInt(assassinObj.killCount) + 1;
             // then reassign assassin to new target
             assassinObj.target = studentObj.target;
             assassinObj.targetStatus = "alive";

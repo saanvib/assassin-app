@@ -49,18 +49,17 @@ function Admin() {
         enableEditing: true,
       },
       {
-         accessorKey: "assassin",
-         header: "Assassin",
-         size: 150,
-         enableEditing: true,
-       },
-       {
-         accessorKey: "killCount",
-         header: "Kill Count",
-         size: 150,
-         enableEditing: true,
-       },
-       
+        accessorKey: "assassin",
+        header: "Assassin",
+        size: 150,
+        enableEditing: true,
+      },
+      {
+        accessorKey: "killCount",
+        header: "Kill Count",
+        size: 150,
+        enableEditing: true,
+      },
     ],
     []
   );
@@ -98,35 +97,42 @@ function Admin() {
       console.log("Values being sent:", values);
       try {
         console.log("Session Token:", sessionToken);
-        if (
-          values.status == "alive" ||
-          values.status == "pending" ||
-          values.status == "eliminated" ||
-          values.status == "disqualified" ||
-          values.status == "dispute"
-        ) {
-          await fetch("/api/updateStudentStatus", {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${sessionToken}`,
-            },
-            body: JSON.stringify({
-              username: values.username,
-              status: values.status,
-              target: values.target,
-              targetStatus: values.targetStatus,
-              assassin: values.assassin,
-              killCount: values.killCount,
-            }),
-          })
-            .then((response) => response.json())
-            .then((data) => console.log("Status updated:", data))
-            .catch((error) => console.error("Error updating status:", error));
-          table.setEditingRow(null);
-        } else {
-          alert("wrong status entered");
+        const validStatuses = [
+          "alive",
+          "pending",
+          "eliminated",
+          "disqualified",
+          "dispute",
+        ];
+        if (!validStatuses.includes(values.status)) {
+          alert("Wrong status entered");
+          return;
         }
+
+        const killCountInt = parseInt(values.killCount, 10);
+        if (isNaN(killCountInt) || killCountInt < 0) {
+          alert("Invalid kill count entered");
+          return;
+        }
+        await fetch("/api/updateStudentStatus", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionToken}`,
+          },
+          body: JSON.stringify({
+            username: values.username,
+            status: values.status,
+            target: values.target,
+            targetStatus: values.targetStatus,
+            assassin: values.assassin,
+            killCount: values.killCount,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => console.log("Status updated:", data))
+          .catch((error) => console.error("Error updating status:", error));
+        table.setEditingRow(null);
       } catch (error) {
         console.error("Catch error:", error); // Log any additional errors
       }
