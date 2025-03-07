@@ -42,7 +42,18 @@ export default async function PATCH(req: VercelRequest, res: VercelResponse) {
       studentObj.targetStatus = targetStatus;
       studentObj.assassin = assassin;
       studentObj.killCount = killCount;
-
+      const assassinUsername = studentObj.assassin;
+      const targetUsername = studentObj.target;
+      const assassinObj: any = await assassinAppConfig.get(assassinUsername);
+      const targetObj: any = await assassinAppConfig.get(targetUsername);
+      console.log("student status " + studentObj.status);
+      if (studentObj.status == "disqualified") {
+         console.log("trying to disqualify " + studentUsername);
+         assassinObj.target = targetUsername;
+         targetObj.assassin = assassinUsername;
+         studentObj.assassin = "";
+         studentObj.target = "";
+      }
       const updateEdgeConfig = await fetch(
          `https://api.vercel.com/v1/edge-config/${edge_config_id}/items`,
          {
@@ -52,7 +63,7 @@ export default async function PATCH(req: VercelRequest, res: VercelResponse) {
                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-               items: [{ key: studentUsername, operation: "update", value: studentObj }],
+               items: [{ key: studentUsername, operation: "update", value: studentObj }, { key: assassinUsername, operation: "update", value: assassinObj }, { key: targetUsername, operation: "update", value: targetObj }],
             }),
          }
       );
