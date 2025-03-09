@@ -39,9 +39,7 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
       res.json({ message: "failed to initialize: " + error });
       return res;
    }
-   console.log(studentObj);
-   console.log(studentObj.username);
-   console.log("student obj is " + studentObj);
+   
    return res.json({
       studentObj: studentObj,
    })

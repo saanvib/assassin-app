@@ -22,7 +22,6 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
 
          if (roles.includes("admin")) {
             const configItems = await getAll();
-            console.log("config Items " + configItems);
             for (const item in configItems) {
                const student = configItems[item] as unknown as Student;
                studentList.push(student);

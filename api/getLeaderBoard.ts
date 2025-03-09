@@ -5,11 +5,12 @@ import { Student } from '../src/components/utils/studentType';
 
 export default async function GET(req: VercelRequest, res: VercelResponse) {
    const configItems = await getAll();
-   const studentList: Student[] = [];
+   const studentList: any[] = [];
    for (const item in configItems) {
       const student = configItems[item] as unknown as Student;
       if (student.status != "eliminated") {
-         studentList.push(student);
+         const {username, killCount} = student;
+         studentList.push({"username": username, "killCount": killCount});
       }
    }
 
@@ -23,7 +24,6 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
       return 0;
    });
 
-   console.log(studentList);
    return res.json({
       leaderboard: studentList.slice(0, 10),
    })
