@@ -130,6 +130,7 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
       "25oliverr@students.harker.org",
       "25oliviag@students.harker.org",
       "25oskarb@students.harker.org",
+      "25pranavs@students.harker.org",
       "25rahuly@students.harker.org",
       "25rajasa@students.harker.org",
       "25rayana@students.harker.org",
