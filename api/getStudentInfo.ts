@@ -14,6 +14,7 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
    let status = 200;
    let statusMsg = "OK";
    let studentObj: any = null;
+   let studentInfo: any = {};
    try {
       const descopeClient = DescopeClient({ projectId: descopeProjectId });
       try {
@@ -26,6 +27,12 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
          console.log(studentUsername);
          // Fetch a single value from one config
          studentObj = await assassinAppConfig.get(studentUsername) as unknown as Student;
+         studentInfo.username = studentObj.username;
+         studentInfo.target = studentObj.target;
+         studentInfo.targetStatus = studentObj.targetStatus;
+         studentInfo.killCount = studentObj.killCount;
+         studentInfo.status = studentObj.status;
+
 
       } catch (error) {
          console.log("Could not validate user session " + error);
@@ -41,6 +48,6 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
    }
    
    return res.json({
-      studentObj: studentObj,
+      studentObj: studentInfo,
    })
 }
