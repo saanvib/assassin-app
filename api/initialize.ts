@@ -92,7 +92,7 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
       "25jasons@students.harker.org",
       "25jasony@students.harker.org",
       "25jeffreyz@students.harker.org",
-      "25jessicaw@students.harker.org",
+      "25jessicawa@students.harker.org",
       "25jiajiaj@students.harker.org",
       "25jonathanw@students.harker.org",
       "25jonnyx@students.harker.org",
