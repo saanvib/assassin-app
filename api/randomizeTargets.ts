@@ -41,7 +41,8 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
    }
 
 
-   if (isValidCron || isValidUser) {
+   if (isValidUser) 
+   {
       for (const item in configItems) {
          const student = configItems[item] as unknown as Student;
          studentList.push(student);

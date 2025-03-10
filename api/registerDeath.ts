@@ -18,7 +18,8 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
    console.log(sessionToken);
    try {
       const descopeClient = DescopeClient({ projectId: descopeProjectId });
-      try {
+      try 
+      {
          const authInfo = await descopeClient.validateSession(sessionToken);
          console.log("Successfully validated user session:");
          const email: string = authInfo.token.email as string;
