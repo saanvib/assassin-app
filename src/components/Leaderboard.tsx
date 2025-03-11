@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
+  const [aliveCount, setAliveCount] = useState<number | null>(null);
   const columns = ["username", "killCount"];
   const navigate = useNavigate();
 
@@ -17,12 +18,15 @@ function Leaderboard() {
     console.log("Calling fetch....");
     fetch("/api/getLeaderBoard", requestOptions)
       .then((response) => response.json())
-      .then((data) => setLeaderboard(data.leaderboard));
+      .then((data) => {
+        setLeaderboard(data.leaderboard);
+        setAliveCount(data.totalAlive);
+      });
   };
 
   useEffect(() => {
-      refreshLeaderboard();
-    }, []);
+    refreshLeaderboard();
+  }, []);
 
   const navDashboard = () => {
     navigate("/");
@@ -38,8 +42,10 @@ function Leaderboard() {
         <div></div>
       </nav>
       <div className="body-wrapper">
-      <h2 className="pageTitle">Leaderboard</h2>
+        <h2 className="pageTitle">Leaderboard</h2>
         <br></br>
+        <p className="pageText"># of Students Alive: {aliveCount} </p>
+
         {/* <button className="button" onClick={refreshLeaderboard}>
           Refresh Leaderboard
         </button> */}
