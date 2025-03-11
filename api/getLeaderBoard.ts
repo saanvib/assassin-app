@@ -25,6 +25,6 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
    });
 
    return res.json({
-      leaderboard: studentList.slice(0, 10),
+      leaderboard: studentList.slice(0, 30),
    })
 }
