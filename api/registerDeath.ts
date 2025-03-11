@@ -28,6 +28,8 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
          studentObj = await assassinAppConfig.get(studentUsername);
          assassin = studentObj.assassin;
          const assassinObj: any = await assassinAppConfig.get(assassin);
+         const targetObj: any = await assassinAppConfig.get(studentObj.target);
+
          if (studentObj.status == "pending" && assassinObj.targetStatus == "pending") {
             // then this student can die
             studentObj.status = "eliminated";
@@ -36,6 +38,7 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
             // then reassign assassin to new target
             assassinObj.target = studentObj.target;
             assassinObj.targetStatus = "alive";
+            targetObj.assassin = studentObj.assassin;
          }
          else {
             // student cannot die, throw error status msg
