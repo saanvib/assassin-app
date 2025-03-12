@@ -162,7 +162,7 @@ function Dashboard() {
               Accept your death.
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Confirm that you were killed by {assassin}.
+              Confirm that you were killed.
             </Typography>
             <br></br>
             <div className="modalButtons">
