@@ -77,7 +77,6 @@ function Dashboard() {
   const target = student ? student.target : "Loading...";
   const status = student ? student.status : "Loading...";
   const targetStatus = student ? student.targetStatus : "Loading...";
-  const assassin = student ? student.assassin : "Loading...";
   const [openKillModal, setOpenKillModal] = useState(false);
   const handleOpenKillModal = () => setOpenKillModal(true);
   const handleCloseKillModal = () => setOpenKillModal(false);
@@ -162,7 +161,7 @@ function Dashboard() {
               Accept your death.
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Confirm that you were killed by {assassin}.
+              Confirm that you were killed.
             </Typography>
             <br></br>
             <div className="modalButtons">
