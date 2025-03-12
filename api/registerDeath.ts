@@ -28,7 +28,8 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
          studentObj = await assassinAppConfig.get(studentUsername);
          assassin = studentObj.assassin;
          const assassinObj: any = await assassinAppConfig.get(assassin);
-         const targetObj: any = await assassinAppConfig.get(studentObj.target);
+         const targetUsername = studentObj.target;
+         const targetObj: any = await assassinAppConfig.get(targetUsername);
 
          if (studentObj.status == "pending" && assassinObj.targetStatus == "pending") {
             // then this student can die
@@ -56,7 +57,7 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
                   },
                   body: JSON.stringify({
                      items: [
-                        { key: studentUsername, operation: "update", value: studentObj }, { key: assassin, operation: "update", value: assassinObj }
+                        { key: studentUsername, operation: "update", value: studentObj }, { key: assassin, operation: "update", value: assassinObj }, {key: targetUsername, operation: "update", value: targetObj}
                      ],
                   }),
                },
