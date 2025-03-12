@@ -15,11 +15,11 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
    let statusMsg = "OK";
    let assassin: string = "";
    let studentObj: any;
+   let studentInfo: any = {};
    console.log(sessionToken);
    try {
       const descopeClient = DescopeClient({ projectId: descopeProjectId });
-      try 
-      {
+      try {
          const authInfo = await descopeClient.validateSession(sessionToken);
          console.log("Successfully validated user session:");
          const email: string = authInfo.token.email as string;
@@ -57,12 +57,19 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
                   },
                   body: JSON.stringify({
                      items: [
-                        { key: studentUsername, operation: "update", value: studentObj }, { key: assassin, operation: "update", value: assassinObj }, {key: targetUsername, operation: "update", value: targetObj}
+                        { key: studentUsername, operation: "update", value: studentObj }, { key: assassin, operation: "update", value: assassinObj }, { key: targetUsername, operation: "update", value: targetObj }
                      ],
                   }),
                },
             );
             const result = await updateEdgeConfig.json();
+
+            studentInfo.username = studentObj.username;
+            studentInfo.target = studentObj.target;
+            studentInfo.targetStatus = studentObj.targetStatus;
+            studentInfo.killCount = studentObj.killCount;
+            studentInfo.status = studentObj.status;
+
          } catch (error) {
             console.log(error);
             res.status(500);
@@ -83,9 +90,10 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
       return res;
    }
 
+
    return res.json({
       message: statusMsg,
       statusCode: status,
-      studentObj: studentObj,
+      studentObj: studentInfo,
    })
 }
