@@ -14,7 +14,6 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
    let target: string = "";
    console.log(sessionToken);
    let studentObj: any;
-   let studentInfo: any = {};
    try {
       const descopeClient = DescopeClient({ projectId: descopeProjectId });
       try {
@@ -44,13 +43,6 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
                },
             );
             const result = await updateEdgeConfig.json();
-
-            studentInfo.username = studentObj.username;
-         studentInfo.target = studentObj.target;
-         studentInfo.targetStatus = studentObj.targetStatus;
-         studentInfo.killCount = studentObj.killCount;
-         studentInfo.status = studentObj.status;
-
          } catch (error) {
             console.log(error);
             res.status(500);
@@ -70,8 +62,6 @@ export default async function POST(req: VercelRequest, res: VercelResponse) {
       res.json({ message: "ERROR: failed to initialize " + error });
       return res;
    }
-
-   studentObj.assassin = "";
 
    return res.json({
       message: `${target} has been killed!`,
