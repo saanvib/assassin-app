@@ -9,7 +9,7 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
    let studentAliveCount = 0;
    for (const item in configItems) {
       const student = configItems[item] as unknown as Student;
-      if (student.status == "pending") {
+      if (student.status != "eliminated" ) {
          studentAliveCount += 1;
          if (student.killCount >= 1) {
             const { username, killCount } = student;
