@@ -27,7 +27,7 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
    });
 
    return res.json({
-      leaderboard: studentList.slice(0, 30),
+      leaderboard: studentList,
       totalAlive: studentAliveCount,
    })
 }
