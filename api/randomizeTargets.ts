@@ -3,6 +3,37 @@ import { createClient, get, getAll } from '@vercel/edge-config';
 import DescopeClient from '@descope/node-sdk';
 import { Student } from '../src/components/utils/studentType';
 
+
+function shuffle(array) {
+   let currentIndex = array.length;
+   while (currentIndex != 0) {
+      let randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [array[currentIndex], array[randomIndex]] = [
+         array[randomIndex], array[currentIndex]];
+   }
+}
+
+function createChain(studentListCopy) {
+   for (let i = 0; i < studentListCopy.length; i++) {
+      if (i == 0) {
+         studentListCopy[i].target = studentListCopy[i + 1].username;
+         studentListCopy[i].assassin =
+            studentListCopy[studentListCopy.length - 1].username;
+         studentListCopy[i].targetStatus = "alive";
+      } else if (i == studentListCopy.length - 1) {
+         studentListCopy[i].target = studentListCopy[0].username;
+         studentListCopy[i].assassin = studentListCopy[i - 1].username;
+         studentListCopy[i].targetStatus = "alive";
+      } else {
+         studentListCopy[i].target = studentListCopy[i + 1].username;
+         studentListCopy[i].assassin = studentListCopy[i - 1].username;
+         studentListCopy[i].targetStatus = "alive";
+      }
+   }
+}
+
+
 export default async function GET(req: VercelRequest, res: VercelResponse) {
    const { headers } = req;
    const bearerToken: string = headers.authorization ?? "";
@@ -13,6 +44,7 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
    let target: string = "";
    const configItems = await getAll();
    const studentList: Student[] = [];
+   const studentListCopy: Student[] = [];
    const isValidCron: boolean = (sessionToken == process.env.CRON_SECRET);
    let isValidUser: boolean = false;
    try {
@@ -40,9 +72,7 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
       return res;
    }
 
-
-   if (isValidUser) 
-   {
+   if (isValidUser) {
       for (const item in configItems) {
          const student = configItems[item] as unknown as Student;
          studentList.push(student);
@@ -50,37 +80,32 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
       const availTargets = Array<number>(studentList.length).fill(1); // 1 = avail 0 = not
       console.log(availTargets);
 
+      const items: any[] = [];
+
       // first kill everybody in pending TODO: change?
       for (const student in studentList) {
          if (studentList[student].status == "pending") {
-            studentList[student].status = "eliminated";
+            return res.json({message: "cannot randomize - pending users"});
          }
          if (studentList[student].targetStatus == "pending") {
-            studentList[student].targetStatus = "eliminated";
-            studentList[student].killCount += 1;
+            return res.json({message: "cannot randomize - pending users"});
+         }
+         if (studentList[student].status == "alive" && studentList[student].killCount == 0) {
+            studentList[student].status = "eliminated";
+         }
+
+         if (studentList[student].status == "alive" && studentList[student].killCount > 0) {
+            studentListCopy.push(studentList[student]);
+         } else {
+            items.push({ key: studentList[student].username, operation: "update", value: studentList[student] })
          }
       }
 
-      // alive people get reassigned
-      for (const student in studentList) {
-         let done: boolean = false;
-         while (studentList[student].status == "alive" && !done) {
-            const r = Math.floor(Math.random() * studentList.length);
-            if (r != Number(student) && availTargets[r] == 1) {
-               availTargets[r] = 0;
-               studentList[student].target = studentList[r].username;
-               studentList[r].assassin = studentList[student].username;
-               studentList[student].targetStatus = "alive";
-               done = true;
-            }
-         }
-      }
+      shuffle(studentListCopy);
+      createChain(studentListCopy);
 
-      console.log("student List" + studentList);
-
-      const items: any[] = [];
-      for (const student in studentList) {
-         items.push({ key: studentList[student].username, operation: "update", value: studentList[student] });
+      for (const student in studentListCopy) {
+         items.push({ key: studentListCopy[student].username, operation: "update", value: studentListCopy[student] });
       }
 
       try {
