@@ -96,7 +96,6 @@ function Admin() {
     onEditingRowSave: async ({ values, table }) => {
       console.log("Values being sent:", values);
       try {
-        console.log("Session Token:", sessionToken);
         const validStatuses = [
           "alive",
           "pending",

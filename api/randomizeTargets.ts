@@ -4,7 +4,7 @@ import DescopeClient from '@descope/node-sdk';
 import { Student } from '../src/components/utils/studentType';
 
 
-function shuffle(array) {
+function shuffle(array: any[]) {
    let currentIndex = array.length;
    while (currentIndex != 0) {
       let randomIndex = Math.floor(Math.random() * currentIndex);
@@ -14,7 +14,7 @@ function shuffle(array) {
    }
 }
 
-function createChain(studentListCopy) {
+function createChain(studentListCopy: any[]) {
    for (let i = 0; i < studentListCopy.length; i++) {
       if (i == 0) {
          studentListCopy[i].target = studentListCopy[i + 1].username;
@@ -80,7 +80,7 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
       const availTargets = Array<number>(studentList.length).fill(1); // 1 = avail 0 = not
       console.log(availTargets);
 
-      const items: any[] = [];
+      let items: any[] = [];
 
       // first kill everybody in pending TODO: change?
       for (const student in studentList) {
