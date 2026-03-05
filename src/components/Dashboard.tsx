@@ -183,11 +183,11 @@ function Dashboard() {
 
         {/* TODO: add in all links */}
         <nav className="navbarbottom">
-          <Link className="link" to="https://docs.google.com/document/d/11REzloMzacvjvCLawWyY8zGQ6Lf9uzpTgE7kG_Fnkd0/edit?usp=sharing">
+          <Link className="link" to="https://docs.google.com/document/d/1MuU0gyBUSIGyMobG9w-FEuh7Sbd5DOEtvWpIrtlukUU/edit?usp=sharing">
             Rules
           </Link>
           {status == "pending" ? (
-            <Link to="https://docs.google.com/forms/u/0/d/1ebDg6YeDxvELAaQYcZQhgwcgrYtTg2DLY9W7M3f4lDI/edit" className="link" target="_blank">
+            <Link to="forms.gle/tTh97RMVgyxnUcLMA" className="link" target="_blank">
               <span>Dispute Death</span>
             </Link>
           ) : (
