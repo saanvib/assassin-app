@@ -27,6 +27,13 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
          console.log(studentUsername);
          // Fetch a single value from one config
          studentObj = await assassinAppConfig.get(studentUsername) as unknown as Student;
+         if (!studentObj) {
+            res.status(404).json({
+               message: "Student not in game roster. Ask an admin to run Initialize.",
+               studentObj: null,
+            });
+            return res;
+         }
          studentInfo.username = studentObj.username;
          studentInfo.target = studentObj.target;
          studentInfo.targetStatus = studentObj.targetStatus;

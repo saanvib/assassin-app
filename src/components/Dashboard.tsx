@@ -54,7 +54,7 @@ function Dashboard() {
 
   const getStudentInfo = () => {
     const requestOptions = {
-      method: "POST",
+      method: "GET",
       headers: {
         Authorization: `Bearer ${sessionToken}`,
         "Content-Type": "application/json",
@@ -193,7 +193,7 @@ function Dashboard() {
           ) : (
             <></>
           )}
-          <Link className="link" to="https://docs.google.com/forms/d/e/1FAIpQLSfkfZ8Ei0CvT6lqIsaQmKltXfUw9dLcWGFWyI3BYI3Bg7l2NA/viewform?usp=sharing">
+          <Link className="link" to="https://docs.google.com/forms/d/e/1FAIpQLSdjKrNVJvH3A5skYU0lh-8pjfzueIur_RiEOv149L4h20718Q/viewform?usp=send_form">
             Ticket/Feedback
           </Link>
         </nav>

@@ -16,6 +16,11 @@ function Admin() {
   const [student, setStudent] = useState<Student | null>(null);
 
   const [studentList, setStudentList] = useState([]);
+  const [newStudentEmail, setNewStudentEmail] = useState("");
+  const [addStudentStatus, setAddStudentStatus] = useState<{
+    type: "idle" | "loading" | "success" | "error";
+    message?: string;
+  }>({ type: "idle" });
   let data: Student[] = studentList;
 
   const navDashboard = () => {
@@ -165,7 +170,9 @@ function Admin() {
     console.log("Calling fetch....");
     fetch("/api/initialize", requestOptions)
       .then((response) => response.json())
-      .then((data) => setStudentList(data.studentList));
+      .then((data) => {
+        if (data.message?.includes("successful")) refreshStudentList();
+      });
   };
 
   const randomizeTargets = () => {
@@ -180,7 +187,51 @@ function Admin() {
     console.log("Calling fetch....");
     fetch("/api/randomizeTargets", requestOptions)
       .then((response) => response.json())
-      .then((data) => setStudentList(data.studentList));
+      .then((data) => {
+        if (data.message?.includes("successful") || data.message?.includes("no alive")) refreshStudentList();
+      });
+  };
+
+  const addStudent = async () => {
+    const email = newStudentEmail.trim();
+    if (!email) {
+      setAddStudentStatus({ type: "error", message: "Enter an email address" });
+      return;
+    }
+    setAddStudentStatus({ type: "loading" });
+    const requestUrl = `${window.location.origin}/api/addStudent`;
+    // #region agent log
+    fetch('http://127.0.0.1:7430/ingest/e1caa617-2833-45b8-96c0-2bf47019711e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0d35c5'},body:JSON.stringify({sessionId:'0d35c5',location:'Admin.tsx:addStudent',message:'addStudent request',data:{requestUrl,origin:window.location.origin},timestamp:Date.now(),hypothesisId:'H_request_url'})}).catch(()=>{});
+    // #endregion
+    try {
+      const response = await fetch("/api/addStudent", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${sessionToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+      // #region agent log
+      fetch('http://127.0.0.1:7430/ingest/e1caa617-2833-45b8-96c0-2bf47019711e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0d35c5'},body:JSON.stringify({sessionId:'0d35c5',location:'Admin.tsx:addStudent',message:'addStudent response',data:{status:response.status,statusText:response.statusText,url:response.url,ok:response.ok},timestamp:Date.now(),hypothesisId:'H_response_status'})}).catch(()=>{});
+      // #endregion
+      const data = await response.json();
+      if (!response.ok) {
+        setAddStudentStatus({
+          type: "error",
+          message: data.message || "Failed to add student",
+        });
+        return;
+      }
+      setAddStudentStatus({ type: "success", message: "Student added" });
+      setNewStudentEmail("");
+      refreshStudentList();
+    } catch (err) {
+      setAddStudentStatus({
+        type: "error",
+        message: "Request failed. Try again.",
+      });
+    }
   };
 
   return (
@@ -204,6 +255,45 @@ function Admin() {
         <button className="button" onClick={randomizeTargets}>
           Randomize
         </button>
+        <br></br>
+        <div style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+          <h3 style={{ fontSize: "1rem", marginBottom: "0.5rem" }}>
+            Add individual student
+          </h3>
+          <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", flexWrap: "wrap" }}>
+            <input
+              type="email"
+              placeholder="e.g. 26username@students.harker.org"
+              value={newStudentEmail}
+              onChange={(e) => setNewStudentEmail(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && addStudent()}
+              style={{
+                padding: "0.5rem 0.75rem",
+                fontSize: "1rem",
+                minWidth: "280px",
+                border: "1px solid #ccc",
+                borderRadius: "4px",
+              }}
+            />
+            <button
+              className="button"
+              onClick={addStudent}
+              disabled={addStudentStatus.type === "loading"}
+            >
+              {addStudentStatus.type === "loading" ? "Adding…" : "Add student"}
+            </button>
+          </div>
+          {addStudentStatus.type === "success" && (
+            <p style={{ color: "green", marginTop: "0.5rem", marginBottom: 0 }}>
+              {addStudentStatus.message}
+            </p>
+          )}
+          {addStudentStatus.type === "error" && (
+            <p style={{ color: "crimson", marginTop: "0.5rem", marginBottom: 0 }}>
+              {addStudentStatus.message}
+            </p>
+          )}
+        </div>
         <br></br>
         <div className="adminTable">
           <MaterialReactTable table={table} />
