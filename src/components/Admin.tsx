@@ -21,6 +21,8 @@ function Admin() {
     type: "idle" | "loading" | "success" | "error";
     message?: string;
   }>({ type: "idle" });
+  const [minKillsForRandomize, setMinKillsForRandomize] = useState<string>("0");
+  const [minKillsStatus, setMinKillsStatus] = useState<{ type: "idle" | "loading" | "success" | "error"; message?: string }>({ type: "idle" });
   let data: Student[] = studentList;
 
   const navDashboard = () => {
@@ -188,8 +190,35 @@ function Admin() {
     fetch("/api/randomizeTargets", requestOptions)
       .then((response) => response.json())
       .then((data) => {
-        if (data.message?.includes("successful") || data.message?.includes("no alive")) refreshStudentList();
+        if (data.message?.includes("successful")) refreshStudentList();
       });
+  };
+
+  const randomizeTargetsMinKills = () => {
+    const n = parseInt(minKillsForRandomize, 10);
+    if (Number.isNaN(n) || n < 0) {
+      setMinKillsStatus({ type: "error", message: "Enter a non-negative number" });
+      return;
+    }
+    setMinKillsStatus({ type: "loading" });
+    fetch("/api/randomizeTargetsMinKills", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${sessionToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ minKills: n }),
+    })
+      .then(async (response) => {
+        const data = await response.json();
+        if (response.ok && data.message?.includes("successful")) {
+          setMinKillsStatus({ type: "success", message: `Randomized ${data.count} players with kills > ${n}` });
+          refreshStudentList();
+        } else {
+          setMinKillsStatus({ type: "error", message: data.message || "Failed to randomize" });
+        }
+      })
+      .catch(() => setMinKillsStatus({ type: "error", message: "Request failed" }));
   };
 
   const addStudent = async () => {
@@ -255,6 +284,35 @@ function Admin() {
         <button className="button" onClick={randomizeTargets}>
           Randomize
         </button>
+        <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", flexWrap: "wrap", marginTop: "0.5rem" }}>
+          <label style={{ fontSize: "0.95rem" }}>Randomize only players with kills &gt;</label>
+          <input
+            type="number"
+            min={0}
+            value={minKillsForRandomize}
+            onChange={(e) => setMinKillsForRandomize(e.target.value)}
+            style={{
+              width: "4rem",
+              padding: "0.35rem 0.5rem",
+              fontSize: "1rem",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+            }}
+          />
+          <button
+            className="button"
+            onClick={randomizeTargetsMinKills}
+            disabled={minKillsStatus.type === "loading"}
+          >
+            {minKillsStatus.type === "loading" ? "Randomizing…" : "Randomize (kills > n)"}
+          </button>
+        </div>
+        {minKillsStatus.type === "success" && (
+          <p style={{ color: "green", marginTop: "0.25rem", marginBottom: 0 }}>{minKillsStatus.message}</p>
+        )}
+        {minKillsStatus.type === "error" && (
+          <p style={{ color: "crimson", marginTop: "0.25rem", marginBottom: 0 }}>{minKillsStatus.message}</p>
+        )}
         <br></br>
         <div style={{ marginTop: "1rem", marginBottom: "1rem" }}>
           <h3 style={{ fontSize: "1rem", marginBottom: "0.5rem" }}>

@@ -82,30 +82,38 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
 
       let items: any[] = [];
 
-      // first kill everybody in pending TODO: change?
-      for (const student in studentList) {
-         if (studentList[student].status == "pending") {
-            return res.json({message: "cannot randomize - pending users"});
+      // Block if any user is pending (disputes etc.)
+      for (const student of studentList) {
+         if (student.status === "pending") {
+            return res.status(400).json({ message: "Cannot randomize - pending users" });
          }
-         if (studentList[student].targetStatus == "pending") {
-            return res.json({message: "cannot randomize - pending users"});
+         if (student.targetStatus === "pending") {
+            return res.status(400).json({ message: "Cannot randomize - pending target status" });
          }
-         if (studentList[student].status == "alive" && studentList[student].killCount == 0) {
-            studentList[student].status = "eliminated";
-         }
+      }
 
-         if (studentList[student].status == "alive" && studentList[student].killCount > 0) {
-            studentListCopy.push(studentList[student]);
+      // Include all alive players in the chain (any kill count)
+      for (const student of studentList) {
+         if (student.status === "alive") {
+            studentListCopy.push(student);
          } else {
-            items.push({ key: studentList[student].username, operation: "update", value: studentList[student] })
+            items.push({ key: student.username, operation: "update", value: student });
          }
+      }
+
+      if (studentListCopy.length < 2) {
+         return res.status(400).json({
+            message: studentListCopy.length === 0
+               ? "No alive players to randomize"
+               : "Need at least 2 alive players to randomize",
+         });
       }
 
       shuffle(studentListCopy);
       createChain(studentListCopy);
 
-      for (const student in studentListCopy) {
-         items.push({ key: studentListCopy[student].username, operation: "update", value: studentListCopy[student] });
+      for (const student of studentListCopy) {
+         items.push({ key: student.username, operation: "update", value: student });
       }
 
       try {
@@ -126,11 +134,14 @@ export default async function GET(req: VercelRequest, res: VercelResponse) {
          console.log(result);
       } catch (error) {
          console.log(error);
+         res.status(502).json({ message: "Edge Config update failed", error: String(error) });
+         return res;
       }
-
+   } else {
+      res.status(403).json({ message: "Admin required" });
+      return res;
    }
 
-
-   res.json({ message: "initialize successful" });
+   res.json({ message: "randomize successful", count: studentListCopy.length });
    return res;
 }
