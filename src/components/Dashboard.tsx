@@ -183,17 +183,20 @@ function Dashboard() {
 
         {/* TODO: add in all links */}
         <nav className="navbarbottom">
+          <Link className="link" to="https://forms.gle/7DBCdb9JNA7yxPuJ9" target="_blank">
+            Excused Absence
+          </Link>
           <Link className="link" to="https://docs.google.com/document/d/1MuU0gyBUSIGyMobG9w-FEuh7Sbd5DOEtvWpIrtlukUU/edit?usp=sharing">
             Rules
           </Link>
           {status == "pending" ? (
-            <Link to="forms.gle/tTh97RMVgyxnUcLMA" className="link" target="_blank">
+            <Link to="https://forms.gle/tTh97RMVgyxnUcLMA" className="link" target="_blank">
               <span>Dispute Death</span>
             </Link>
           ) : (
             <></>
           )}
-          <Link className="link" to="https://docs.google.com/forms/d/e/1FAIpQLSdjKrNVJvH3A5skYU0lh-8pjfzueIur_RiEOv149L4h20718Q/viewform?usp=send_form">
+          <Link className="link" to="https://docs.google.com/forms/d/e/1FAIpQLSdjKrNVJvH3A5skYU0lh-8pjfzueIur_RiEOv149L4h20718Q/viewform?usp=send_form" target="_blank">
             Ticket/Feedback
           </Link>
         </nav>
